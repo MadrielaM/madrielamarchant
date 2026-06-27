@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Madriela Marchant — Cantante Chilena</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --negro:     #0D0D0D;
+      --grafito:   #141414;
+      --grafito2:  #1c1c1c;
+      --rojo:      #B82020;
+      --rojo-luz:  #d42e2e;
+      --oro:       #C9A84C;
+      --blanco:    #F2EFE8;
+      --gris:      #7a7a7a;
+      --gris-bajo: #282828;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--negro);
+      color: var(--blanco);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.75;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.3rem 5rem;
+      background: linear-gradient(to bottom, rgba(13,13,13,0.98) 60%, transparent);
+      backdrop-filter: blur(4px);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; letter-spacing: 0.18em;
+      color: var(--blanco); text-transform: uppercase;
+    }
+    .nav-logo span { color: var(--oro); }
+    nav ul { list-style: none; display: flex; gap: 2.8rem; align-items: center; }
+    nav a { color: var(--gris); text-decoration: none; font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; transition: color 0.3s; }
+    nav a:hover { color: var(--blanco); }
+    .nav-cta { padding: 0.55rem 1.4rem !important; border: 1px solid var(--rojo) !important; color: var(--blanco) !important; border-radius: 2px; }
+    .nav-cta:hover { background: var(--rojo) !important; }
+
+    /* ── HERO ── */
+    #inicio {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 5rem;
+      padding: 8rem 5rem 5rem;
+      position: relative; overflow: hidden;
+    }
+    #inicio::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 70% at 80% 50%, rgba(184,32,32,0.10) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(184,32,32,0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    #inicio::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 180px;
+      background: linear-gradient(to bottom, transparent, var(--negro));
+      pointer-events: none;
+    }
+    .hero-texto { position: relative; z-index: 2; }
+
+    .hero-eyebrow {
+      font-size: 0.67rem; letter-spacing: 0.5em; text-transform: uppercase;
+      color: var(--rojo); margin-bottom: 1.8rem;
+      display: flex; align-items: center; gap: 0.9rem;
+      opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--rojo); }
+
+    .hero-nombre {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.4rem, 6vw, 6.8rem);
+      font-weight: 900; line-height: 1.0; letter-spacing: -0.02em;
+      color: var(--blanco);
+      opacity: 0; animation: fadeUp 0.9s 0.4s forwards;
+    }
+    .hero-nombre em {
+      display: block; font-style: italic; font-weight: 400;
+      color: var(--oro); font-size: 0.52em; letter-spacing: 0.06em; margin-top: 0.4rem;
+    }
+
+    .hero-tributo-chip {
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      margin-top: 1.8rem;
+      padding: 0.6rem 1.2rem;
+      border: 1px solid rgba(184,32,32,0.4);
+      border-radius: 2px;
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--rojo);
+      opacity: 0; animation: fadeUp 0.9s 0.6s forwards;
+    }
+    .hero-tributo-chip span { color: var(--blanco); }
+
+    .hero-descriptor {
+      margin-top: 1.8rem; font-size: 0.97rem; color: var(--gris);
+      line-height: 1.8; max-width: 480px;
+      opacity: 0; animation: fadeUp 0.9s 0.75s forwards;
+    }
+
+    .hero-badges {
+      display: flex; gap: 0.6rem; margin-top: 2rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.9s 0.9s forwards;
+    }
+    .badge {
+      padding: 0.35rem 0.9rem; border: 1px solid var(--gris-bajo);
+      border-radius: 100px; font-size: 0.65rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gris);
+    }
+
+    .hero-cta {
+      display: flex; gap: 1rem; margin-top: 2.8rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.9s 1.05s forwards;
+    }
+
+    .btn-rojo, .btn-outline {
+      padding: 0.9rem 2rem; font-size: 0.72rem; letter-spacing: 0.22em;
+      text-transform: uppercase; text-decoration: none; border-radius: 2px;
+      font-family: 'Inter', sans-serif; font-weight: 500; transition: all 0.3s;
+    }
+    .btn-rojo { background: var(--rojo); color: var(--blanco); }
+    .btn-rojo:hover { background: var(--rojo-luz); }
+    .btn-outline { border: 1px solid rgba(242,239,232,0.2); color: var(--blanco); }
+    .btn-outline:hover { border-color: var(--blanco); }
+
+    /* foto hero */
+    .hero-foto-wrap {
+      position: relative; z-index: 2;
+      opacity: 0; animation: fadeIn 1.2s 0.5s forwards;
+    }
+    .hero-foto {
+      aspect-ratio: 2/3; background: var(--grafito2); border-radius: 2px; overflow: hidden; position: relative;
+    }
+    .hero-foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-foto::before {
+      content: ''; position: absolute; top: 0; left: -14px; bottom: 0; width: 2px;
+      background: linear-gradient(to bottom, transparent, var(--rojo) 40%, var(--oro) 60%, transparent);
+    }
+    .hero-foto-placeholder {
+      width: 100%; height: 100%; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 1rem;
+      color: var(--gris); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .hero-stat {
+      position: absolute; bottom: 2.5rem; left: -2rem;
+      background: var(--negro); border: 1px solid var(--gris-bajo);
+      padding: 1.2rem 1.5rem; border-radius: 2px;
+    }
+    .hero-stat .n { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--oro); display: block; line-height: 1; }
+    .hero-stat .l { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gris); display: block; margin-top: 0.3rem; }
+
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 5rem;
+      display: flex; align-items: center; gap: 0.8rem;
+      color: var(--gris); font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; z-index: 3;
+      opacity: 0; animation: fadeUp 1s 1.4s forwards;
+    }
+    .scroll-hint::after { content: ''; width: 40px; height: 1px; background: linear-gradient(to right, var(--rojo), transparent); }
+
+    /* ── COMUNES ── */
+    section { padding: 8rem 5rem; }
+    .seccion-inner { max-width: 1100px; margin: 0 auto; }
+    .seccion-label {
+      font-size: 0.63rem; letter-spacing: 0.5em; text-transform: uppercase;
+      color: var(--rojo); margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .seccion-label::before { content: ''; width: 24px; height: 1px; background: var(--rojo); }
+    .seccion-titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; line-height: 1.15; color: var(--blanco);
+    }
+
+    /* ── BIOGRAFÍA ── */
+    #biografia { background: var(--grafito); }
+
+    .bio-layout {
+      display: grid; grid-template-columns: 360px 1fr;
+      gap: 6rem; align-items: start; margin-top: 4rem;
+    }
+    .bio-foto-col { position: relative; }
+    .bio-foto {
+      aspect-ratio: 3/4; background: var(--gris-bajo); border-radius: 2px; overflow: hidden; position: relative;
+    }
+    .bio-foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .bio-foto::after {
+      content: ''; position: absolute; inset: 0;
+      border: 1px solid rgba(201,168,76,0.2); margin: 14px; pointer-events: none;
+    }
+    .bio-foto-placeholder {
+      width: 100%; height: 100%; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 1rem;
+      color: var(--gris); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .bio-logro {
+      position: absolute; right: -2rem;
+      background: var(--negro); border: 1px solid var(--gris-bajo);
+      padding: 1rem 1.2rem; border-radius: 2px; text-align: center; min-width: 110px;
+    }
+    .bio-logro:nth-child(2) { top: 2rem; }
+    .bio-logro:nth-child(3) { bottom: 6rem; }
+    .bio-logro .n { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--oro); line-height: 1; display: block; }
+    .bio-logro .t { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gris); display: block; margin-top: 0.3rem; }
+
+    .bio-contenido { padding-top: 0.5rem; }
+    .bio-contenido .seccion-titulo { margin-bottom: 2rem; }
+    .bio-lead { font-size: 1.1rem; color: var(--blanco); margin-bottom: 1.5rem; line-height: 1.75; }
+    .bio-texto { color: var(--gris); font-size: 0.95rem; margin-bottom: 1.3rem; line-height: 1.85; }
+
+    .bio-generos {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid var(--gris-bajo);
+    }
+    .genero-tag {
+      padding: 0.4rem 1rem; border: 1px solid var(--gris-bajo);
+      border-radius: 100px; font-size: 0.67rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gris); transition: all 0.3s;
+    }
+    .genero-tag:hover { border-color: var(--oro); color: var(--oro); }
+    .genero-tag.destaca { border-color: var(--rojo); color: var(--rojo); }
+
+    /* ── TRIBUTO ── */
+    #tributo { background: var(--negro); }
+
+    .tributo-header {
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: end; gap: 2rem; margin-bottom: 5rem;
+    }
+    .tributo-bajada { color: var(--gris); font-size: 0.97rem; max-width: 580px; line-height: 1.85; margin-top: 1rem; }
+
+    /* numeritos */
+    .show-nums {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1.5px; background: var(--gris-bajo);
+      border: 1px solid var(--gris-bajo); margin-bottom: 4rem;
+    }
+    .show-num-item { background: var(--grafito); padding: 2.2rem; text-align: center; }
+    .show-num-item .n { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--rojo); line-height: 1; display: block; }
+    .show-num-item .l { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gris); display: block; margin-top: 0.5rem; }
+
+    /* tarjetas del dosier */
+    .dosier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: var(--gris-bajo); border: 1px solid var(--gris-bajo); margin-bottom: 4rem; }
+    .dosier-card { background: var(--grafito); padding: 2.8rem 2.2rem; display: flex; flex-direction: column; gap: 0.9rem; }
+    .dosier-card-ico {
+      width: 46px; height: 46px; border: 1px solid var(--gris-bajo);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: var(--oro); margin-bottom: 0.4rem;
+    }
+    .dosier-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--blanco); font-weight: 700; }
+    .dosier-card p { color: var(--gris); font-size: 0.88rem; line-height: 1.75; flex: 1; }
+    .dosier-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: var(--oro); font-size: 0.7rem; letter-spacing: 0.15em;
+      text-transform: uppercase; text-decoration: none; margin-top: 0.4rem; transition: gap 0.3s;
+    }
+    .dosier-link:hover { gap: 0.9rem; }
+
+    /* bloque de descarga */
+    .tributo-descarga {
+      background: var(--grafito); border: 1px solid var(--gris-bajo);
+      border-left: 3px solid var(--rojo); padding: 3rem 3.5rem;
+      display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center;
+    }
+    .tributo-descarga h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--blanco); margin-bottom: 0.7rem; }
+    .tributo-descarga p { color: var(--gris); font-size: 0.92rem; max-width: 520px; line-height: 1.8; }
+    .descarga-btns { display: flex; flex-direction: column; gap: 0.75rem; min-width: 200px; }
+    .btn-descarga {
+      display: flex; align-items: center; gap: 0.8rem;
+      padding: 0.85rem 1.4rem; border: 1px solid var(--gris-bajo); border-radius: 2px;
+      color: var(--blanco); text-decoration: none; font-size: 0.72rem;
+      letter-spacing: 0.14em; text-transform: uppercase; font-family: 'Inter', sans-serif;
+      transition: all 0.3s; white-space: nowrap;
+    }
+    .btn-descarga:hover { border-color: var(--oro); color: var(--oro); }
+    .btn-descarga.principal { background: var(--rojo); border-color: var(--rojo); }
+    .btn-descarga.principal:hover { background: var(--rojo-luz); border-color: var(--rojo-luz); color: var(--blanco); }
+
+    /* ── CONTACTO ── */
+    #contacto { background: var(--grafito); }
+    .contacto-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 6rem; align-items: start; margin-top: 4rem; }
+    .contacto-bajada { color: var(--gris); font-size: 0.97rem; margin-bottom: 3rem; line-height: 1.85; }
+    .contacto-metodos { display: flex; flex-direction: column; gap: 0; }
+    .contacto-metodo {
+      display: flex; align-items: center; gap: 1.2rem;
+      padding: 1.2rem 0; border-bottom: 1px solid var(--gris-bajo);
+      text-decoration: none; color: var(--gris); transition: color 0.3s, padding-left 0.25s;
+    }
+    .contacto-metodo:first-child { border-top: 1px solid var(--gris-bajo); }
+    .contacto-metodo:hover { color: var(--blanco); padding-left: 0.5rem; }
+    .contacto-metodo-ico {
+      width: 38px; height: 38px; border: 1px solid var(--gris-bajo); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: border-color 0.3s;
+    }
+    .contacto-metodo:hover .contacto-metodo-ico { border-color: var(--oro); }
+    .c-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gris); display: block; margin-bottom: 0.1rem; }
+    .c-val { font-size: 0.9rem; color: var(--blanco); }
+
+    .form-campo { margin-bottom: 1.4rem; }
+    .form-campo label { display: block; font-size: 0.63rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gris); margin-bottom: 0.55rem; }
+    .form-campo input, .form-campo textarea, .form-campo select {
+      width: 100%; background: var(--negro); border: 1px solid var(--gris-bajo); border-radius: 2px;
+      padding: 0.85rem 1rem; color: var(--blanco); font-family: 'Inter', sans-serif;
+      font-size: 0.9rem; transition: border-color 0.3s; outline: none; resize: none; appearance: none;
+    }
+    .form-campo input:focus, .form-campo textarea:focus, .form-campo select:focus { border-color: var(--rojo); }
+    .form-campo input::placeholder, .form-campo textarea::placeholder { color: #555; }
+    .form-campo select option { background: var(--negro); }
+    .btn-enviar {
+      width: 100%; padding: 1rem; background: var(--rojo); color: var(--blanco); border: none;
+      font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.3em; text-transform: uppercase; border-radius: 2px; cursor: pointer; transition: background 0.3s; margin-top: 0.4rem;
+    }
+    .btn-enviar:hover { background: var(--rojo-luz); }
+
+    /* ── FOOTER ── */
+    footer { background: #080808; padding: 4rem 5rem 2.5rem; border-top: 1px solid var(--gris-bajo); }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-top {
+      display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 4rem;
+      padding-bottom: 3rem; border-bottom: 1px solid var(--gris-bajo); margin-bottom: 2.5rem;
+    }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blanco); display: block; margin-bottom: 0.35rem; }
+    .footer-tagline { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.85rem; color: var(--rojo); display: block; margin-bottom: 1.2rem; }
+    .footer-bio { font-size: 0.82rem; color: var(--gris); line-height: 1.75; }
+    .footer-col h4 { font-size: 0.6rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gris); margin-bottom: 1.5rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .footer-col a { text-decoration: none; color: var(--gris); font-size: 0.88rem; transition: color 0.3s; }
+    .footer-col a:hover { color: var(--blanco); }
+    .footer-redes { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .footer-redes a {
+      width: 40px; height: 40px; border: 1px solid var(--gris-bajo); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gris); text-decoration: none; transition: all 0.3s;
+    }
+    .footer-redes a:hover { border-color: var(--rojo); color: var(--rojo); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 0.7rem; color: #444; letter-spacing: 0.08em; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      nav ul { display: none; }
+      #inicio { grid-template-columns: 1fr; padding: 6rem 1.5rem 4rem; text-align: center; }
+      .hero-eyebrow { justify-content: center; }
+      .hero-cta { justify-content: center; }
+      .hero-foto-wrap, .scroll-hint { display: none; }
+      section { padding: 5rem 1.5rem; }
+      .bio-layout, .contacto-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .bio-logro { display: none; }
+      .dosier-grid { grid-template-columns: 1fr; }
+      .show-nums { grid-template-columns: 1fr 1fr; }
+      .tributo-descarga, .tributo-header { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 2.5rem; }
+      footer { padding: 3rem 1.5rem 2rem; }
+      .footer-bottom { flex-direction: column; gap: 0.8rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Madriela <span>Marchant</span></div>
+    <ul>
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#biografia">Biografía</a></li>
+      <li><a href="#tributo">Tributo Guzmán</a></li>
+      <li><a href="#contacto" class="nav-cta">Contratar</a></li>
+    </ul>
+  </nav>
+
+  <!-- ════ INICIO ════ -->
+  <section id="inicio">
+    <div class="hero-texto">
+      <div class="hero-eyebrow">Cantante · Chile · 25 años de carrera</div>
+
+      <h1 class="hero-nombre">
+        Madriela<br>Marchant
+        <em>Voz, emoción y presencia en escena</em>
+      </h1>
+
+      <div class="hero-tributo-chip">
+        ★ Proyecto especial &nbsp;·&nbsp; <span>Tributo a Alejandra Guzmán</span>
+      </div>
+
+      <p class="hero-descriptor">
+        Una de las voces más expresivas de la escena musical chilena. Con más de 25 años entregando emoción, potencia y alma en cada presentación, Madriela es sinónimo de show en vivo de calidad.
+      </p>
+
+      <div class="hero-badges">
+        <span class="badge">Balada</span>
+        <span class="badge">Pop Latino</span>
+        <span class="badge">Rock en Español</span>
+        <span class="badge">Bolero</span>
+      </div>
+
+      <div class="hero-cta">
+        <a href="#biografia" class="btn-rojo">Conocer a Madriela</a>
+        <a href="#tributo" class="btn-outline">Ver Tributo Guzmán</a>
+      </div>
+    </div>
+
+    <div class="hero-foto-wrap">
+      <div class="hero-foto">
+        <!-- Reemplaza con: <img src="madriela-hero.jpg" alt="Madriela Marchant"> -->
+        <div class="hero-foto-placeholder">
+          <svg width="60" height="60" viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="31" stroke="#333" stroke-width="1"/>
+            <circle cx="32" cy="22" r="10" stroke="#333" stroke-width="1"/>
+            <path d="M10 54c0-12 10-20 22-20s22 8 22 20" stroke="#333" stroke-width="1"/>
+          </svg>
+          <span>Foto artística aquí</span>
+        </div>
+      </div>
+      <div class="hero-stat">
+        <span class="n">25+</span>
+        <span class="l">Años de carrera</span>
+      </div>
+    </div>
+
+    <div class="scroll-hint">Explorar</div>
+  </section>
+
+  <!-- ════ BIOGRAFÍA ════ -->
+  <section id="biografia">
+    <div class="seccion-inner">
+      <span class="seccion-label">Quién es Madriela</span>
+      <div class="bio-layout">
+
+        <div class="bio-foto-col">
+          <div class="bio-foto">
+            <!-- Reemplaza con: <img src="madriela-bio.jpg" alt="Madriela Marchant"> -->
+            <div class="bio-foto-placeholder">
+              <svg width="56" height="56" viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="31" stroke="#333" stroke-width="1"/>
+                <circle cx="32" cy="22" r="10" stroke="#333" stroke-width="1"/>
+                <path d="M10 54c0-12 10-20 22-20s22 8 22 20" stroke="#333" stroke-width="1"/>
+              </svg>
+              <span>Tu foto aquí</span>
+            </div>
+          </div>
+          <div class="bio-logro">
+            <span class="n">25+</span>
+            <span class="t">Años cantando</span>
+          </div>
+          <div class="bio-logro">
+            <span class="n">100+</span>
+            <span class="t">Shows realizados</span>
+          </div>
+        </div>
+
+        <div class="bio-contenido">
+          <h2 class="seccion-titulo">Una carrera construida<br>show a show</h2>
+
+          <p class="bio-lead">
+            Madriela Marchant es una cantante chilena con más de 25 años de trayectoria profesional en los escenarios. Su voz, su presencia artística y su capacidad de conectar con el público la han consolidado como una intérprete de referencia en la música en vivo en Chile.
+          </p>
+          <p class="bio-texto">
+            Desde muy joven descubrió su vocación por el canto. A lo largo de su carrera ha explorado múltiples géneros — la balada romántica, el pop latino, el bolero y el rock en español — siempre con honestidad artística y entrega total sobre el escenario.
+          </p>
+          <p class="bio-texto">
+            Ha actuado en teatros, festivales, peñas, centros culturales, eventos corporativos y espacios íntimos a lo largo de todo Chile. Su capacidad de leer al público y adaptarse a cada espacio es uno de sus grandes atributos: sabe cuándo emocionar, cuándo hacer vibrar y cuándo hacer cantar a la sala entera.
+          </p>
+          <p class="bio-texto">
+            Hoy sigue activa y en plena producción artística. Su más reciente proyecto — el Tributo a Alejandra Guzmán — es uno de los trabajos más ambiciosos de su carrera, un homenaje que suma su experiencia de décadas al vigor del rock en español.
+          </p>
+
+          <div class="bio-generos">
+            <span class="genero-tag destaca">★ Tributo · Guzmán</span>
+            <span class="genero-tag">Balada romántica</span>
+            <span class="genero-tag">Pop Latino</span>
+            <span class="genero-tag">Bolero</span>
+            <span class="genero-tag">Rock en Español</span>
+            <span class="genero-tag">Show en vivo</span>
+            <span class="genero-tag">Eventos corporativos</span>
+            <span class="genero-tag">Teatro</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ TRIBUTO A LA GUZMÁN ════ -->
+  <section id="tributo">
+    <div class="seccion-inner">
+
+      <div class="tributo-header">
+        <div>
+          <span class="seccion-label">Proyecto especial · 2025</span>
+          <h2 class="seccion-titulo" style="margin-top:1rem;">Tributo a<br>Alejandra Guzmán</h2>
+          <p class="tributo-bajada">
+            El show más reciente de Madriela es un homenaje apasionado a la Reina del Rock en Español. Más de tres décadas de hits que marcaron generaciones, interpretados con la fuerza, la actitud y la emoción que solo Alejandra Guzmán puede inspirar. Un espectáculo completo, en vivo y con toda la energía.
+          </p>
+        </div>
+        <a href="#contacto" class="btn-rojo" style="align-self:flex-start; white-space:nowrap; margin-top:1rem;">Contratar el show</a>
+      </div>
+
+      <!-- Números del show -->
+      <div class="show-nums">
+        <div class="show-num-item">
+          <span class="n">20+</span>
+          <span class="l">Canciones en repertorio</span>
+        </div>
+        <div class="show-num-item">
+          <span class="n">90</span>
+          <span class="l">Minutos de show</span>
+        </div>
+        <div class="show-num-item">
+          <span class="n">3</span>
+          <span class="l">Décadas de hits</span>
+        </div>
+        <div class="show-num-item">
+          <span class="n">100%</span>
+          <span class="l">Interpretación en vivo</span>
+        </div>
+      </div>
+
+      <!-- Dosier y brochure -->
+      <div class="dosier-grid">
+
+        <div class="dosier-card">
+          <div class="dosier-card-ico">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
+          <h3>Dosier Artístico</h3>
+          <p>Presentación completa de Madriela Marchant: trayectoria, propuesta artística, experiencia en escena, fotos profesionales y referencias. Ideal para productores, venues y prensa.</p>
+          <a href="#" class="dosier-link">
+            Descargar dosier
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="dosier-card">
+          <div class="dosier-card-ico">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M3 9h18M9 21V9"/>
+            </svg>
+          </div>
+          <h3>Brochure del Show</h3>
+          <p>Ficha técnica del Tributo a Alejandra Guzmán: setlist, duración, opciones de producción, requerimientos técnicos de sonido e iluminación y rider para organizadores.</p>
+          <a href="#" class="dosier-link">
+            Descargar brochure
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="dosier-card">
+          <div class="dosier-card-ico">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polygon points="23 7 16 12 23 17 23 7"/>
+              <rect x="1" y="5" width="15" height="14" rx="2"/>
+            </svg>
+          </div>
+          <h3>Material de Prensa</h3>
+          <p>Registro audiovisual de presentaciones anteriores, fotografías de alta resolución y material gráfico disponible para medios, redes sociales y comunicación del evento.</p>
+          <a href="#" class="dosier-link">
+            Ver material
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Descarga destacada -->
+      <div class="tributo-descarga">
+        <div>
+          <h3>Descarga el kit completo del show</h3>
+          <p>Dosier artístico + brochure técnico + material gráfico del Tributo a Alejandra Guzmán, todo en un solo archivo listo para usar en tu evento, comunicación o presentación a auspiciadores.</p>
+        </div>
+        <div class="descarga-btns">
+          <a href="#" class="btn-descarga principal">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Kit completo (PDF)
+          </a>
+          <a href="#" class="btn-descarga">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            Solo dosier
+          </a>
+          <a href="#" class="btn-descarga">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M3 9h18M9 21V9"/>
+            </svg>
+            Solo brochure
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════ CONTACTO ════ -->
+  <section id="contacto">
+    <div class="seccion-inner">
+      <span class="seccion-label">Hablemos</span>
+      <h2 class="seccion-titulo">Contratar a Madriela</h2>
+
+      <div class="contacto-layout">
+
+        <div>
+          <p class="contacto-bajada">
+            Para contrataciones de shows, presentaciones privadas, eventos corporativos, festivales, prensa o colaboraciones artísticas. Respondo personalmente y a la brevedad.
+          </p>
+          <div class="contacto-metodos">
+
+            <a href="https://wa.me/56900000000" target="_blank" class="contacto-metodo">
+              <div class="contacto-metodo-ico">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                </svg>
+              </div>
+              <div>
+                <span class="c-label">WhatsApp · respuesta rápida</span>
+                <span class="c-val">+56 9 XXXX XXXX</span>
+              </div>
+            </a>
+
+            <a href="mailto:tu@email.com" class="contacto-metodo">
+              <div class="contacto-metodo-ico">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="2" y="4" width="20" height="16" rx="2"/>
+                  <path d="M2 8l10 6 10-6"/>
+                </svg>
+              </div>
+              <div>
+                <span class="c-label">Correo electrónico</span>
+                <span class="c-val">tu@email.com</span>
+              </div>
+            </a>
+
+            <a href="https://instagram.com/tuusuario" target="_blank" class="contacto-metodo">
+              <div class="contacto-metodo-ico">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="2" y="2" width="20" height="20" rx="5"/>
+                  <circle cx="12" cy="12" r="5"/>
+                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+                </svg>
+              </div>
+              <div>
+                <span class="c-label">Instagram</span>
+                <span class="c-val">@tuusuario</span>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
+        <div>
+          <div class="form-campo">
+            <label>Tu nombre completo</label>
+            <input type="text" placeholder="Nombre del organizador o productor">
+          </div>
+          <div class="form-campo">
+            <label>Email de contacto</label>
+            <input type="email" placeholder="correo@ejemplo.com">
+          </div>
+          <div class="form-campo">
+            <label>Tipo de evento</label>
+            <select>
+              <option value="" disabled selected>Selecciona una opción</option>
+              <option>Bar o Pub</option>
+              <option>Teatro o Sala de espectáculos</option>
+              <option>Festival o evento masivo</option>
+              <option>Evento corporativo</option>
+              <option>Matrimonio o evento privado</option>
+              <option>Centro cultural o municipalidad</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-campo">
+            <label>Fecha aproximada</label>
+            <input type="text" placeholder="Ej: Agosto 2025 / Por definir">
+          </div>
+          <div class="form-campo">
+            <label>Mensaje</label>
+            <textarea rows="4" placeholder="Ciudad, aforo estimado, lo que necesitas saber..."></textarea>
+          </div>
+          <button class="btn-enviar">Enviar solicitud</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ FOOTER ════ -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+
+        <div>
+          <span class="footer-logo">Madriela Marchant</span>
+          <span class="footer-tagline">Tributo a Alejandra Guzmán</span>
+          <p class="footer-bio">Cantante chilena con más de 25 años de trayectoria en escena. Balada, pop latino, bolero y rock en español. Disponible para shows, eventos y contrataciones en todo Chile.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#biografia">Biografía</a></li>
+            <li><a href="#tributo">Tributo Guzmán</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Redes sociales</h4>
+          <div class="footer-redes">
+            <a href="https://instagram.com/tuusuario" target="_blank" title="Instagram">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                <circle cx="12" cy="12" r="5"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+              </svg>
+            </a>
+            <a href="https://tiktok.com/@tuusuario" target="_blank" title="TikTok">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M9 12a4 4 0 1 0 4 4V4c1 2 3 3 5 3"/>
+              </svg>
+            </a>
+            <a href="https://youtube.com/@tucanal" target="_blank" title="YouTube">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="2" y="5" width="20" height="14" rx="3"/>
+                <polygon points="10,9 16,12 10,15" fill="currentColor" stroke="none"/>
+              </svg>
+            </a>
+            <a href="https://facebook.com/tupagina" target="_blank" title="Facebook">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+              </svg>
+            </a>
+            <a href="https://wa.me/56900000000" target="_blank" title="WhatsApp">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2025 Madriela Marchant · Todos los derechos reservados · Chile</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
